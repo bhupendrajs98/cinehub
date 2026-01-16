@@ -1,0 +1,26 @@
+{
+    "_id": "6965357736548b80611e2d1f",
+    "name": "Sam",
+    "email": "sam@gmail.com",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjUzNTc3MzY1NDhiODA2MTFlMmQxZiIsImlhdCI6MTc2ODI0MDUwNCwiZXhwIjoxNzY4ODQ1MzA0fQ.Tcza-F466XkBs_k0iOX2lkaSqkAFcT99HD_6RFRWdww"
+}
+
+//http://localhost:2026/api/auth/register
+
+//admin     //http://localhost:2026/api/auth/register
+
+{
+    "_id": "696537191112217e64e15a0f",
+    "name": "Admin",
+    "email": "admin@movieapp.com",
+    "role": "admin",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjUzNzE5MTExMjIxN2U2NGUxNWEwZiIsImlhdCI6MTc2ODI0MDkyMSwiZXhwIjoxNzY4ODQ1NzIxfQ.Za8BlM_q0rWVmG8b-o6KGm8nl8uk03SUwfxZWhzMaP8"
+}
+{
+    "_id": "696537191112217e64e15a0f",
+    "name": "Admin",
+    "email": "admin@movieapp.com",
+    "role": "admin",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NjUzNzE5MTExMjIxN2U2NGUxNWEwZiIsImlhdCI6MTc2ODI0MTA3MiwiZXhwIjoxNzY4ODQ1ODcyfQ.vJIp9MZc1cDU6z-VILAuOOK0gxPfaD-JL87CkTehKQ4"
+}
+
