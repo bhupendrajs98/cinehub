@@ -1,11 +1,21 @@
 import User from "../models/User.js";
 
-// Get profile
+/* ================= ADMIN: GET ALL USERS ================= */
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password"); // password exclude
+    res.json(users);
+  } catch (err) {
+    console.error("Get all users error:", err);
+    res.status(500).json({ message: "Failed to get users" });
+  }
+};
+
+/* ================= USER PROFILE ================= */
 export const getUserProfile = async (req, res) => {
   res.json(req.user);
 };
 
-// Update profile
 export const updateUserProfile = async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -16,7 +26,7 @@ export const updateUserProfile = async (req, res) => {
   res.json(updatedUser);
 };
 
-// Add to watchlist
+/* ================= WATCHLIST ================= */
 export const addToWatchlist = async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -28,7 +38,6 @@ export const addToWatchlist = async (req, res) => {
   res.json(user.watchlist);
 };
 
-// Remove from watchlist
 export const removeFromWatchlist = async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -40,7 +49,6 @@ export const removeFromWatchlist = async (req, res) => {
   res.json(user.watchlist);
 };
 
-// Get watchlist
 export const getWatchlist = async (req, res) => {
   const user = await User.findById(req.user._id).populate("watchlist");
   res.json(user.watchlist);
