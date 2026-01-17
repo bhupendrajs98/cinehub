@@ -5,7 +5,7 @@ import { getAllUsers } from "../controllers/userController.js";
 
 const router = express.Router();
 
-//  Public routes
+// ✅ Public routes
 router.post("/register", register);
 router.post("/login", login);
 
