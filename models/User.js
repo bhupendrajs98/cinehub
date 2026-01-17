@@ -1,15 +1,23 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
+/**
+ * User Schema
+ */
 const userSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
+      trim: true,
     },
 
     password: {
@@ -26,22 +34,42 @@ const userSchema = new mongoose.Schema(
     },
 
     watchlist: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Movie" },
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Movie",
+      },
     ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-/* 🔐 Hash password */
+/**
+ * 🔐 Hash password before save
+ */
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
+  try {
+    // Only hash if password is modified or new
+    if (!this.isModified("password")) {
+      return next();
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
-/* 🔍 Compare password */
-userSchema.methods.matchPassword = function (password) {
-  return bcrypt.compare(password, this.password);
+/**
+ * 🔍 Compare password method
+ */
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return bcrypt.compare(enteredPassword, this.password);
 };
 
-export default mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+export default User;
