@@ -1,3 +1,4 @@
+// server.js
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -21,13 +22,28 @@ connectDB();
 
 const app = express();
 
-
 // ---------- Global Middleware ----------
+// Allow frontend origins: production + local dev
+const allowedOrigins = [
+  "https://cinehub-frontend-eta.vercel.app", // frontend prod
+  "http://localhost:5173" // frontend dev
+];
+
 app.use(cors({
-  origin: "http://localhost:5173", // frontend dev URL
-  credentials: true,
+  origin: function(origin, callback) {
+    // allow requests with no origin (like curl, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
 }));
-app.use(express.json());
+
+// Limit JSON payload size
+app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: false }));
 
 // ---------- Root ----------
@@ -50,7 +66,7 @@ app.use(errorHandler);
 
 // ---------- Start Server ----------
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, process.env.IP || "0.0.0.0", () => {
   console.log(
     `🚀 Server running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`
   );
